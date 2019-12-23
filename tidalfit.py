@@ -11,14 +11,12 @@ import scipy
 
 
 #TODO: make singleton...
-constituents = pd.read_excel('tidalconstants/harmonics.xlsx',index_col='sname')
+import os 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+harmonicsfile = os.path.join(dir_path,'tidalconstants/harmonics.xlsx')
+constituents = pd.read_excel(harmonicsfile,index_col='sname')
 constituents.index = constituents.index.str.upper()
 
-#
-#NOAA = ['M2', 'S2', 'N2', 'K1', 'M4', 'O1', 'M6', 'MK3', 'S4', 'MN4', 'NU2', 
-#        'S6', 'MU2', '2N2', 'OO1', 'LAM2', 'S1', 'M1', 'J1', 'MM', 'SSA', 'SA', 
-#        'MSF', 'MF', 'RHO', 'Q1', 'T2', 'R2', '2Q1', 'P1', '2SM2', 'M3', 'L2', 
-#        '2MK3', 'K2', 'M8', 'MS4']
 
 NOAA = ['M2', 'S2', 'N2', 'K1', 'M4', 'O1', 'M6', 'MK3', 'S4', 'MN4', 'NU2', 
         'S6', 'MU2', '2N2', 'OO1', 'LAM2', 'S1', 'M1', 'J1', 'MM', 'SSA', 'SA', 
@@ -74,8 +72,11 @@ if __name__ == '__main__':
     T = TidalModel()
     T.fit(sl.index,sl.sl)
     import matplotlib.pyplot as plt
-    sl=sl.loc[sl.index>pd.datetime.fromisoformat("2009-12-01")]
-    plt.plot(sl.index,sl.sl-np.nanmean(sl.sl))
-    plt.plot(sl.index,T.predict(sl.index))
+    plt.style.use('seaborn')
+
+    plt.figure(figsize=[12, 6])
+    sl=sl.loc[sl.index>pd.datetime.fromisoformat("2009-12-05")]
+    plt.plot(sl.index,sl.sl-np.nanmean(sl.sl),linewidth=4)
+    plt.plot(sl.index,T.predict(sl.index),'k',linewidth=1)
     
     
