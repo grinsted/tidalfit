@@ -36,22 +36,20 @@ class TidalModel:
         self.constituents = C
 
     def _predictors(self,t):
-        p = np.outer(t,np.pi*self.constituents.speed/180.0)
-        C = np.cos(p)
-        S = np.sin(p)
+        t0 = pd.datetime.fromisoformat("2000-01-01T12:00:00")
+        t = (t-t0)/np.timedelta64(1,'h')
+        phi = np.outer(t,np.pi*self.constituents.speed/180.0)
+        C = np.cos(phi)
+        S = np.sin(phi)
         return (C,S)
     
     def predict(self,t):
-        t0 = pd.datetime.fromisoformat("2000-01-01T12:00:00")
-        t = (t-t0)/np.timedelta64(1,'h')
         (C,S) = self._predictors(t)
         pC = self.constituents.amplitude * np.cos(self.constituents.phase)
         pS = self.constituents.amplitude * np.sin(self.constituents.phase)
         return np.dot(C,pC) + np.dot(S,pS)
 
     def fit(self,t,z):
-        t0 = pd.datetime.fromisoformat("2000-01-01T12:00:00")
-        t = (t-t0)/np.timedelta64(1,'h')
         
         t = t[~np.isnan(z)]
         z = z[~np.isnan(z)]
@@ -59,13 +57,11 @@ class TidalModel:
         A = np.hstack(self._predictors(t))
         N = self.constituents.shape[0]
         
-        
         (p,istop,itn,r1norm,r2norm,anorm,acond,arnorm,xnorm,var) = scipy.sparse.linalg.lsqr(A,z-np.nanmean(z))
-        print(p.shape)
+
         self.constituents.amplitude = np.sqrt(p[0:N]**2+p[N:2*N]**2)
         self.constituents.phase = np.arctan2(p[N:2*N],p[0:N])
-        
-        print(p)
+
 
         
     
@@ -78,6 +74,7 @@ if __name__ == '__main__':
     T = TidalModel()
     T.fit(sl.index,sl.sl)
     import matplotlib.pyplot as plt
+    sl=sl.loc[sl.index>pd.datetime.fromisoformat("2009-12-01")]
     plt.plot(sl.index,sl.sl-np.nanmean(sl.sl))
     plt.plot(sl.index,T.predict(sl.index))
     
