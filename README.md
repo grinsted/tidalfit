@@ -9,8 +9,8 @@ This is less full-featured than pytides, but:
 * pytides does not appear to be not actively maintained. 
 * This is much simpler. I do not attempt to calculate the tidal frequencies, but simply look them up in a table. 
 
+This is very much still a work in progress.
 
-This is very much still a
 
 TODO:
 * allow a trend and mean component to be fitted at the same time, or allow user to specify additional "predictors".
