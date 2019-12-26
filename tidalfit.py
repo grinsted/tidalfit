@@ -7,14 +7,14 @@ Created on Fri Dec 20 11:58:03 2019
 
 import pandas as pd
 import numpy as np
-import scipy
+import scipy.sparse.linalg
 
 
 #TODO: make singleton...
 import os 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 harmonicsfile = os.path.join(dir_path,'tidalconstants/harmonics.xlsx')
-constituents = pd.read_excel(harmonicsfile,index_col='sname')
+constituents = pd.read_excel(harmonicsfile,index_col='sname',usecols=['sname', 'speed'])
 constituents.index = constituents.index.str.upper()
 
 
@@ -29,8 +29,8 @@ class TidalModel:
     
     def __init__(self, constituentlist = NOAA):
         C = constituents.loc[NOAA].copy() #TODO: case sensitive!!!
-        C.insert(4,'phase',0.0)
-        C.insert(5,'amplitude',0.0)
+        C.insert(1,'amplitude',0.0)
+        C.insert(2,'phase',0.0)
         self.constituents = C
 
     def _predictors(self,t):
