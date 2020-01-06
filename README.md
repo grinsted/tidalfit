@@ -3,7 +3,7 @@ Tidalfit for python
 
 A minimal tool for estimating tidal amplitudes and phases from e.g. tide gauge observations. 
 
-There is an example/testcase in the bottom of tidalfit.py .
+There is an example/testcase in the bottom of tidalfit.py.
 
 
 
@@ -22,7 +22,7 @@ TODO:
 * add robust fitting methods. 
 * consider fit to be a @classmethod
 * avoid overfitting. (Remove constituents that cannot be fitted with the given data.)
-* give phase in degrees instead of radians
+* use a standard reference epoch / phase 
 * Use singleton to hold master harmonic table.
-* tests...
+* more tests...
 * ...

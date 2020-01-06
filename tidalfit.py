@@ -28,6 +28,9 @@ aliases['EP2']='EPS2'
 aliases['MI2']='MU2'
 aliases['NI2']='NU2'
 aliases['LM2']='LAM2'
+aliases['MSQ']='MSQM' #https://www.degruyter.com/downloadpdf/j/jogs.2013.3.issue-1/jogs-2013-0010/jogs-2013-0010.pdf
+aliases['MKS']='MKS2' #TODO: need to check
+aliases['MTM']='MFM' 
 
 
 
@@ -50,8 +53,8 @@ class TidalModel:
 
 
     def _predictors(self,t):
-        t0 = pd.datetime.fromisoformat("2000-01-01T12:00:00")
-        t = (t-t0)/np.timedelta64(1,'h')
+        t0 = pd.datetime.fromisoformat("1950-01-01T00:00:00")
+        t = (t-t0)/np.timedelta64(1,'h') 
         phi = np.outer(t,np.pi*self.constituents.speed/180.0)
         C = np.cos(phi)
         S = np.sin(phi)
