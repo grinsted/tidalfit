@@ -5,6 +5,7 @@ A minimal tool for estimating tidal amplitudes and phases from e.g. tide gauge o
 
 There is an example/testcase in the bottom of tidalfit.py.
 
+check also [Utide](https://github.com/wesleybowman/UTide).
 
 
 This is less full-featured than pytides, but:
