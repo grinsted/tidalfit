@@ -78,7 +78,7 @@ class TidalModel:
         A = np.hstack(self._predictors(t))
         N = self.constituents.shape[0]
         
-        (p,istop,itn,r1norm,r2norm,anorm,acond,arnorm,xnorm,var) = scipy.sparse.linalg.lsqr(A,z-np.nanmean(z))
+        (p,istop,itn,normr,normar,norma,conda,normx) = scipy.sparse.linalg.lsmr(A,z-np.nanmean(z))
 
         self.constituents.amplitude = np.sqrt(p[0:N]**2+p[N:2*N]**2)
         self.constituents.phase = np.arctan2(p[N:2*N],p[0:N])*180/np.pi
